@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 class Set_Profile extends StatefulWidget {
-  const Set_Profile({Key? key}) : super(key: key);
+  Set_Profile(
+      {Key? key,
+      required this.uid,
+      this.phone,
+      this.email,
+      this.username,
+      this.photourl})
+      : super(key: key);
+  final String uid;
+  final String? phone;
+  final String? email;
+  final String? username;
+  final String? photourl;
 
   @override
   State<Set_Profile> createState() => _Set_ProfileState();
@@ -10,8 +22,15 @@ class Set_Profile extends StatefulWidget {
 final double circleRadius = 120.0;
 
 class _Set_ProfileState extends State<Set_Profile> {
+  TextEditingController username = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController email = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    username.text = widget.username ?? "";
+    phone.text = widget.phone ?? "";
+    email.text = widget.email ?? "";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffF2EFF5),
@@ -64,28 +83,30 @@ class _Set_ProfileState extends State<Set_Profile> {
                   bottom: 10,
                   right: 10,
                   child: Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        // shape: BoxShape.circle,
-                        borderRadius: BorderRadius.circular(4),
-                        color:
-                            Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(255, 139, 143, 255)
-                                .withOpacity(0.4),
-                            blurRadius: 10.0,
-                            offset: Offset(0.0, 4.0),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                          child: Text(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      // shape: BoxShape.circle,
+                      borderRadius: BorderRadius.circular(4),
+                      color:
+                          Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 139, 143, 255)
+                              .withOpacity(0.4),
+                          blurRadius: 10.0,
+                          offset: Offset(0.0, 4.0),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
                         'Edit Cover',
                         style: TextStyle(
                           fontSize: 10,
                         ),
-                      ))),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -105,6 +126,7 @@ class _Set_ProfileState extends State<Set_Profile> {
             child: Column(
               children: [
                 TextFormField(
+                  controller: username,
                   cursorColor: Color(0xff8F93F8),
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -128,6 +150,7 @@ class _Set_ProfileState extends State<Set_Profile> {
                   height: 5,
                 ),
                 TextFormField(
+                  controller: email,
                   cursorColor: Color(0xff8F93F8),
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -151,6 +174,7 @@ class _Set_ProfileState extends State<Set_Profile> {
                   height: 5,
                 ),
                 TextFormField(
+                  controller: phone,
                   cursorColor: Color(0xff8F93F8),
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(

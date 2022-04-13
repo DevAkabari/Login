@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:login_ui/numeric_pad.dart';
 import 'package:login_ui/verifty_phone.dart';
 
@@ -14,12 +15,13 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.close,
-          size: 30,
-          color: Colors.black,
+        leading: IconButton(
+          icon: SvgPicture.asset('asset/icon/fi-rr-arrow-small-left.svg'),
+          onPressed: () {
+            Navigator.of(context).pop(context);
+          },
         ),
-        title: Text(
+        title: const Text(
           "Continue with phone",
           style: TextStyle(
             fontSize: 18,
@@ -37,7 +39,7 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
         children: <Widget>[
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -49,7 +51,7 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: const <Widget>[
                   // SizedBox(
                   //   height: 130,
                   //   width: double.infinity,
@@ -63,9 +65,10 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
                     child: Text(
                       "You'll receive a 4 digit code to verify next.",
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 15,
                         color: Color(0xFF818181),
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
@@ -74,11 +77,10 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.13,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
             ),
             child: Padding(
               padding: EdgeInsets.all(16),
@@ -90,7 +92,7 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           "Enter your phone",
                           style: TextStyle(
                             fontSize: 14,
@@ -103,7 +105,7 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
                         // ),
                         Text(
                           phoneNumber,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -114,25 +116,36 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  VerifyPhone(phoneNumber: phoneNumber)),
-                        );
+                        if (phoneNumber.length != 10) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            content: Text("enter valid number . "),
+                            margin: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.height - 80),
+                          ));
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    VerifyPhone(phoneNumber: phoneNumber)),
+                          );
+                        }
                       },
                       child: Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFFDC3D),
+                        decoration: const BoxDecoration(
+                          color: Color(0xff8F93F8),
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             "Continue",
                             style: TextStyle(
                               fontSize: 18,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -146,14 +159,22 @@ class _ContinueWithPhoneState extends State<ContinueWithPhone> {
           ),
           NumericPad(
             onNumberSelected: (value) {
-              setState(() {
-                if (value != -1) {
-                  phoneNumber = phoneNumber + value.toString();
-                } else {
-                  phoneNumber =
-                      phoneNumber.substring(0, phoneNumber.length - 1);
+              // setState(() {
+              if (value != -1) {
+                setState(() {
+                  if (phoneNumber.length < 10) {
+                    phoneNumber = phoneNumber + value.toString();
+                  }
+                });
+              } else {
+                if (phoneNumber.isNotEmpty && phoneNumber != null) {
+                  setState(() {
+                    phoneNumber =
+                        phoneNumber.substring(0, phoneNumber.length - 1);
+                  });
                 }
-              });
+              }
+              // });
             },
           ),
         ],

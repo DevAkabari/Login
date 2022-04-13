@@ -24,6 +24,7 @@ attr fontWeight
 attr imageAspectRatio
 attr imageAspectRatioAdjust
 attr keylines
+attr lStar
 attr layout_anchor
 attr layout_anchorGravity
 attr layout_behavior
@@ -185,11 +186,16 @@ id fill
 id fill_horizontal
 id fill_vertical
 id forever
+id glide_custom_view_target_tag
 id icon
 id icon_group
 id icon_only
 id info
 id italic
+id item1
+id item2
+id item3
+id item4
 id left
 id light
 id line1
@@ -225,6 +231,7 @@ id text2
 id time
 id title
 id top
+id view_tree_lifecycle_owner
 id wide
 integer google_play_services_version
 integer status_bar_notification_info_maxnum
@@ -237,6 +244,8 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+menu example_menu
+menu example_menu2
 mipmap ic_launcher
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text
@@ -257,6 +266,15 @@ string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
 string default_web_client_id
+string exo_download_completed
+string exo_download_description
+string exo_download_downloading
+string exo_download_failed
+string exo_download_notification_channel_name
+string exo_download_paused
+string exo_download_paused_for_network
+string exo_download_paused_for_wifi
+string exo_download_removing
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id
@@ -277,7 +295,7 @@ style Widget_Support_CoordinatorLayout
 styleable ActivityFilter activityAction activityName
 styleable ActivityRule alwaysExpand
 styleable Capability queryPatterns shortcutMatchRequired
-styleable ColorStateListItem android_color android_alpha alpha
+styleable ColorStateListItem android_color android_alpha android_lStar alpha lStar
 styleable CoordinatorLayout keylines statusBarBackground
 styleable CoordinatorLayout_Layout android_layout_gravity layout_anchor layout_anchorGravity layout_behavior layout_dodgeInsetEdges layout_insetEdge layout_keyline
 styleable FontFamily fontProviderAuthority fontProviderCerts fontProviderFetchStrategy fontProviderFetchTimeout fontProviderPackage fontProviderQuery fontProviderSystemFontFamily
@@ -289,3 +307,5 @@ styleable SignInButton buttonSize colorScheme scopeUris
 styleable SplitPairFilter primaryActivityName secondaryActivityAction secondaryActivityName
 styleable SplitPairRule clearTop finishPrimaryWithSecondary finishSecondaryWithPrimary splitLayoutDirection splitMinSmallestWidth splitMinWidth splitRatio
 styleable SplitPlaceholderRule placeholderActivityName splitLayoutDirection splitMinSmallestWidth splitMinWidth splitRatio
+xml flutter_image_picker_file_paths
+xml flutter_share_file_paths

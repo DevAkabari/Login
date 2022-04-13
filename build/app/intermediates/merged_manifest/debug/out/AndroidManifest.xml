@@ -12,7 +12,18 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
@@ -61,10 +72,10 @@
             android:directBootAware="true"
             android:exported="false" >
             <meta-data
-                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
+                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
-                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
+                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
                 android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
@@ -88,6 +99,31 @@
                 android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
         </service>
+
+        <provider
+            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+            android:authorities="com.example.login_ui.flutter.image_provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/flutter_image_picker_file_paths" />
+        </provider>
+
+        <activity
+            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <provider
+            android:name="dev.fluttercommunity.plus.share.ShareFileProvider"
+            android:authorities="com.example.login_ui.flutter.share_provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/flutter_share_file_paths" />
+        </provider>
 
         <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"

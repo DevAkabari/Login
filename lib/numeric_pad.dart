@@ -14,6 +14,7 @@ class NumericPad extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
+            margin: EdgeInsets.only(top: 15),
             height: MediaQuery.of(context).size.height * 0.11,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

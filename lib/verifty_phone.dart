@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:login_ui/set_profile.dart';
 
 import 'numeric_pad.dart';
 
@@ -8,11 +10,58 @@ class VerifyPhone extends StatefulWidget {
   const VerifyPhone({required this.phoneNumber});
 
   @override
-  _VerifyPhoneState createState() => _VerifyPhoneState();
+  _VerifyPhoneState createState() => _VerifyPhoneState(phoneNumber);
 }
 
 class _VerifyPhoneState extends State<VerifyPhone> {
+  _VerifyPhoneState(this.phonenumber);
   String code = "";
+  final phonenumber;
+  String _varificationId = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    sendCode();
+  }
+
+  final _auth = FirebaseAuth.instance;
+
+  sendCode() async {
+    await _auth.verifyPhoneNumber(
+        phoneNumber: "+91" + phonenumber,
+        verificationCompleted: (ver_comp) {},
+        codeSent: (verificationId, code) async {
+          setState(() {
+            _varificationId = verificationId;
+          });
+        },
+        verificationFailed: (v) {},
+        codeAutoRetrievalTimeout: (v) {});
+  }
+
+  verify() async {
+    if (_varificationId != "" && code.length == 6) {
+      final credential = PhoneAuthProvider.credential(
+          verificationId: _varificationId, smsCode: code);
+
+      final _user = await _auth.signInWithCredential(credential);
+
+      if (_user.user != null) {
+        final _phone = _user.user!.phoneNumber;
+        final _uid = _user.user!.uid;
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => Set_Profile(
+                      uid: _uid,
+                      phone: _phone,
+                    )));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +123,10 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                             code.length > 2 ? code.substring(2, 3) : ""),
                         buildCodeNumberBox(
                             code.length > 3 ? code.substring(3, 4) : ""),
+                        buildCodeNumberBox(
+                            code.length > 4 ? code.substring(4, 5) : ""),
+                        buildCodeNumberBox(
+                            code.length > 5 ? code.substring(5, 6) : ""),
                       ],
                     ),
                   ),
@@ -125,7 +178,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        print("Verify and Create Account");
+                        verify();
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -155,7 +208,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               print(value);
               setState(() {
                 if (value != -1) {
-                  if (code.length < 4) {
+                  if (code.length < 6) {
                     code = code + value.toString();
                   }
                 } else {
@@ -174,13 +227,13 @@ class _VerifyPhoneState extends State<VerifyPhone> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: SizedBox(
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         child: Container(
           decoration: BoxDecoration(
             color: Color(0xFFF6F5FA),
             borderRadius: BorderRadius.all(
-              Radius.circular(15),
+              Radius.circular(10),
             ),
             boxShadow: <BoxShadow>[
               BoxShadow(

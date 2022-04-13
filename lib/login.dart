@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:login_ui/continue_with_phone.dart';
 import 'package:login_ui/home.dart';
 import 'package:login_ui/signup.dart';
 
@@ -21,17 +22,21 @@ class _LoginState extends State<Login> {
   googleSignin() async {
     // _auth.signOut();
     // GoogleSignIn().signOut();
-    final GoogleSignInAccount? _google = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication authpro = await _google!.authentication;
+    try {
+      final GoogleSignInAccount? _google = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication authpro = await _google!.authentication;
 
-    AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: authpro.accessToken, idToken: authpro.idToken);
-    final user = await _auth.signInWithCredential(credential);
-    print(user.user!.photoURL!);
+      AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: authpro.accessToken, idToken: authpro.idToken);
+      final user = await _auth.signInWithCredential(credential);
+      print(user.user!.photoURL!);
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("success full with ${user.user!.email!}"),
-    ));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("success full with ${user.user!.email!}"),
+      ));
+    } catch (e) {
+      print("=======================$e");
+    }
   }
 
   signin() async {
@@ -42,7 +47,7 @@ class _LoginState extends State<Login> {
 
       if (_user.user != null) {
         print(_user.user!.uid);
-        Navigator.push(context, MaterialPageRoute(builder: (_) => Home()));
+        // Navigator.push(context, MaterialPageRoute(builder: (_) => Home()));
       }
     } catch (e) {
       print("==============$e");
@@ -101,6 +106,36 @@ class _LoginState extends State<Login> {
                 InkWell(
                   onTap: () {
                     googleSignin();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(14),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            child: SvgPicture.asset('asset/icon/google.svg'),
+                            height: 20,
+                            width: 20,
+                          ),
+                          SizedBox(width: 12),
+                          Text('Sign in with Google'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    // googleSignin();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ContinueWithPhone()));
                   },
                   child: Container(
                     decoration: BoxDecoration(
